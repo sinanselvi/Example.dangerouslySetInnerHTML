@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import DangerHtmlComponent from "./DangerHtmlComponent";
+
+var exampleContent =
+    "&lt;p&gt;&lt;strong&gt;dangerouslySetInnerHTML&lt;/strong&gt;&lt;/p&gt;";
+
+function htmlDecode(input) {
+    var e = document.createElement("div");
+    e.innerHTML = input;
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
+
+function DangerHTML(context) {
+    return (
+        <div
+            dangerouslySetInnerHTML={{
+                __html: htmlDecode(exampleContent),
+            }}
+        />
+    );
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <DangerHTML />
+            <DangerHtmlComponent content={exampleContent} />
+        </div>
+    );
 }
 
 export default App;
